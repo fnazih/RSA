@@ -8,14 +8,14 @@ using namespace std;
 GrandNombre::GrandNombre() {
 	for(int i = 0; i < SIZE; i++)
 	{
-		this->Tab[i] = 0;
+		Tab[i] = 0;
 	}
 }
 
 GrandNombre::GrandNombre(uint32_t bigInt[SIZE]) {
 
 	for(int i = 0; i < SIZE; i++) {
-		this->Tab[i] = bigInt[i];
+		Tab[i] = bigInt[i];
 	}
 }
 
@@ -25,11 +25,11 @@ GrandNombre GrandNombre::operator+(const GrandNombre &gn) const {
 	GrandNombre result;
 
 	for(int i = SIZE - 1; i >= 0; i--) {
-		result.set(i, this->Tab[i] + gn.getDataIndex(i) + carry);
-		if(this->Tab[i] + gn.getDataIndex(i) >= pow(2, 31)) {
+		result.set(i, Tab[i] + gn.getDataIndex(i) + carry);
+		if(Tab[i] + gn.getDataIndex(i) >= pow(2, 31)) {
 			carry = 1;
 		}
-		else if(this->Tab[i] + gn.getDataIndex(i) == pow(2, 32) && carry == 1) {
+		else if(Tab[i] + gn.getDataIndex(i) == pow(2, 32) && carry == 1) {
 			carry = 1;
 		}
 		else {
@@ -45,22 +45,23 @@ GrandNombre GrandNombre::operator-(const GrandNombre &gn) const {
 	GrandNombre result;
 
 	for(int i = 0; i < SIZE; i++) {
-		result.set(i, Tab->[i] - gn.getDataIndex(i));
+		result.set(i, Tab[i] - gn.getDataIndex(i));
 	}
 	
 	return result;
 }
 
 GrandNombre GrandNombre::operator*(const GrandNombre &gn) const {
+	int carry = 0;
+	GrandNombre result;
 
+	for(int i = SIZE - 1; i >= 0; i--) {
+		
+	}
+
+	return result;
 }
 
-
-friend ostream& GrandNombre::operator<<(ostream& str, const GrandNombre &gn) const {
-
-
-	return str;
-}
 
 
 int main() {
