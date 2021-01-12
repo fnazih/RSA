@@ -12,24 +12,49 @@ GrandNombre::GrandNombre() {
 	}
 }
 
-GrandNombre::GrandNombre(uint32_t bigInt[SIZE]) {
-
+GrandNombre::GrandNombre(uint64_t bigInt[SIZE]) {
 	for(int i = 0; i < SIZE; i++) {
 		Tab[i] = bigInt[i];
 	}
 }
 
 //addition
-GrandNombre GrandNombre::operator+(const GrandNombre &gn) const {
+GrandNombre GrandNombre::operator+(GrandNombre &gn) {
+	uint64_t temp_res;
 	int carry = 0;
 	GrandNombre result;
 
 	for(int i = SIZE - 1; i >= 0; i--) {
-		result.set(i, Tab[i] + gn.getDataIndex(i) + carry);
-		if(Tab[i] + gn.getDataIndex(i) >= pow(2, 31)) {
+		temp_res = Tab[i] + gn.getDataIndex(i) + carry;
+		result.set(i, temp_res);
+
+		if((Tab[i]>>1) + (gn.getDataIndex(i)>>1) >= 0x8000000000000000) {	//if MSB of potential result on 9 bits is a 1
 			carry = 1;
 		}
-		else if(Tab[i] + gn.getDataIndex(i) == pow(2, 32) && carry == 1) {
+
+		else if(Tab[i] + gn.getDataIndex(i) == 0xFFFFFFFFFFFFFFFF) {
+					carry = 1;
+		}
+
+		else {
+			carry = 0;
+		}
+	}
+
+	return result;
+}
+
+//soustraction
+GrandNombre GrandNombre::operator-(GrandNombre &gn) {
+	int carry = 0;
+	GrandNombre result;
+
+	for(int i = SIZE - 1; i < 0; i--){
+		result.set(i, Tab[i] - gn.getDataIndex(i) - carry);
+		if(Tab[i] - gn.getDataIndex(i) < 0x0000000000000000) {
+			carry = 1;
+		}
+		else if((Tab[i]) - (gn.getDataIndex(i)) == 0x0000000000000000 && carry == 1) {
 			carry = 1;
 		}
 		else {
@@ -40,32 +65,34 @@ GrandNombre GrandNombre::operator+(const GrandNombre &gn) const {
 	return result;
 }
 
-GrandNombre GrandNombre::operator-(const GrandNombre &gn) const {
-	int carry = 0;
-	GrandNombre result;
-
-	for(int i = 0; i < SIZE; i++) {
-		result.set(i, Tab[i] - gn.getDataIndex(i));
-	}
-	
-	return result;
-}
-
-GrandNombre GrandNombre::operator*(const GrandNombre &gn) const {
+//multiplication
+GrandNombre GrandNombre::operator*(GrandNombre &gn) {
 	int carry = 0;
 	GrandNombre result;
 
 	for(int i = SIZE - 1; i >= 0; i--) {
-		
+		//result
 	}
 
 	return result;
 }
 
 
-
+//main
 int main() {
-	
+
+	uint64_t bigInt1[SIZE] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0000000000000001, 0x0000000000000000, 0x0000000000000000, 0x0000000006030001};
+	uint64_t bigInt2[SIZE] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x000000000000000F, 0x0000000000000000, 0x0000000000000001, 0x000000A000600001};
+
+	GrandNombre gn1(bigInt1);
+	GrandNombre gn2(bigInt2);
+	GrandNombre gnRes, gnRes2;
+
+	gnRes = gn1 + gn2;
+	cout << "gn1 + gn2 = " << gnRes << endl;
+
+//	gnRes2 = gn2 - gn1;
+	//cout << "gn2 - gn1 = " << gnRes2 << endl;
+
 	return 0;
 }
-

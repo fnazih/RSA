@@ -1,27 +1,28 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include <math.h>
 #include <stdint.h>
 using namespace std;
 
-#define SIZE 64		//for a 2048 bits number, we need 64 unsigned integers of 32 bits since we are on a VM (x32)
+#define SIZE 32		//for a 2048 bits number, we need 64 unsigned integers of 32 bits since we are on a VM (x32)
+#define BITS sizeof(uint64_t)
 
 class GrandNombre {
 private:
-	uint32_t Tab[SIZE];
+	uint64_t Tab[SIZE];
 public:
 	GrandNombre();
-	GrandNombre(uint32_t bigInt[SIZE]);
-	uint32_t getDataIndex(int i) { return Tab[i]; }
-	void set(int i, uint32_t data) { this->Tab[i] = data; }
-	GrandNombre operator+(const GrandNombre &gn) const;
-	GrandNombre operator-(const GrandNombre &gn) const;
-	GrandNombre operator*(const GrandNombre &gn) const;
+	GrandNombre(uint64_t bigInt[SIZE]);
+	uint64_t getDataIndex(int i) { return Tab[i]; }
+	void set(int i, uint64_t data) { this->Tab[i] = data; }
+	GrandNombre operator+(GrandNombre &gn);
+	GrandNombre operator-(GrandNombre &gn);
+	GrandNombre operator*(GrandNombre &gn);
 	friend ostream& operator<<(ostream& str, GrandNombre gn) {
 		for(int i = 0; i < SIZE; i++) {
-			str << hex << gn.getDataIndex(i);
+			str << hex << uppercase << setfill('0') << gn.getDataIndex(i);
 		}
-
 		return str;
 	}
 };
