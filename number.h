@@ -5,7 +5,7 @@
 #include <stdint.h>
 using namespace std;
 
-#define SIZE 64		//for a 2048 bits number, we need 64 unsigned integers of 64 bits since we will multiply 32 bits number together
+#define SIZE 32		//for a 2048 bits number, we need 64 unsigned integers of 64 bits since we will multiply 32 bits number together
 #define BITS sizeof(uint64_t)
 
 class GrandNombre {
@@ -25,4 +25,20 @@ public:
 		}
 		return str;
 	}
+	bool operator>(GrandNombre &gn) {
+		uint64_t temp;
+		bool bigger = false;
+
+		for(int i = 0; i < SIZE; i++) {
+			if(Tab[i] > gn.getDataIndex(i)) {
+				bigger = true;
+				return bigger;
+			}
+		}
+
+		return bigger;
+	}
+	GrandNombre mod_add(GrandNombre &gn, GrandNombre &N);
+	GrandNombre mod_sub(GrandNombre &gn, GrandNombre &N);
+	GrandNombre montgomery(GrandNombre &gn, GrandNombre &N);
 };
