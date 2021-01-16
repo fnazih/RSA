@@ -38,6 +38,22 @@ public:
 
 		return bigger;
 	}
+	bool operator==(GrandNombre &gn) {
+		int equal = 0;
+
+		for(int i = 0; i < SIZE; i++) {
+			if(Tab[i] == gn.getDataIndex(i)) {
+				equal++;
+			}
+		}
+
+		if(equal == SIZE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	GrandNombre mod_add(GrandNombre &gn, GrandNombre &N);
 	GrandNombre mod_sub(GrandNombre &gn, GrandNombre &N);
 	GrandNombre montgomery(GrandNombre &gn, GrandNombre &N);

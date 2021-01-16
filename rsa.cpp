@@ -1,15 +1,16 @@
 #include<iostream>
 #include<math.h>
 #include<cstdlib>
+#include "number.h"
 using namespace std;
 
-long int choosePrimaryNumber();
-bool isPrime(long int number);
-long int gcd(long int e, long int phi);
+GrandNombre choosePrimaryNumber();
+bool isPrime(GrandNombre number);
+GrandNombre gcd(GrandNombre e, GrandNombre phi);
 
-long int choosePrimaryNumber()
+GrandNombre choosePrimaryNumber()
 {
-	long int number = 0;
+	GrandNombre number = GrandNombre();
 
 	while(!isPrime(number))
 	{
@@ -20,10 +21,13 @@ long int choosePrimaryNumber()
 }
 
 //This function returns true if the parameter is primary, and false otherwise.
-bool isPrime(long int number) {
+bool isPrime(GrandNombre number) {
 	int squareRoot = sqrt(number);	//To check if a number is primary, we can divide him by every number until his square root
+	GrandNombre gn_null, gn1;
+	gn_null = GrandNombre();
+	gn1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0000000000000001};
 
-	if(number ==0 || number == 1)
+	if(number == gn_null || number == gn1)
 	{
 		return false;
 	}
@@ -34,7 +38,7 @@ bool isPrime(long int number) {
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 
@@ -65,10 +69,3 @@ int main()
 
 	return 0;
 }
-
-
-
-
-
-
-

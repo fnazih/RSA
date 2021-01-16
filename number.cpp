@@ -3,6 +3,8 @@
 #include "number.h"
 using namespace std;
 
+GrandNombre transform_phi(GrandNombre &gn, GrandNombre &N);
+
 GrandNombre::GrandNombre() {
 	for(int i = 0; i < SIZE; i++)
 	{
@@ -89,17 +91,45 @@ GrandNombre GrandNombre::mod_sub(GrandNombre &gn, GrandNombre &N) {
 }
 
 //montgomery multiplication
-GrandNombre GrandNombre::montgomery(GrandNombre &gn, GrandNombre &N) {
-	GrandNombre result;
+GrandNombre GrandNombre::montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre &V, GrandNombre &R) {
+	GrandNombre result, s, t, m, u, phi_A, phi_B;
+
+	phi_A = transform_phi(*this, N);
+	phi_B = transform_phi(gn, N);
+
+	s = phi_A*phi_B;
+	t = s*V;
+
+	while (t > R) {
+		t = t - R;
+	}
+
+	m = s + t*N;
+
+	//u = m/R;
+
+	result = u - N;
 
 	return result;
+}
+
+GrandNombre transform_phi(GrandNombre &gn, GrandNombre &N, GrandNombre &R) {
+	GrandNombre phi_gn;
+
+	phi_gn = gn*R;
+
+	while (phi_gn > N) {
+		phi_gn = phi_gn - N;
+	}
+
+	return phi_gn;
 }
 
 //main
 int main() {
 
-	uint64_t bigInt1[SIZE] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x00000000FFFFFFFF};
-	uint64_t bigInt2[SIZE] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x00000000FFFFFFFF};
+	uint64_t bigInt1[SIZE] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x000000000000000F};
+	uint64_t bigInt2[SIZE] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x000000000000000F};
 
 	GrandNombre gn1(bigInt1);
 	GrandNombre gn2(bigInt2);
