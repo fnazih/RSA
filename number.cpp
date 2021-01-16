@@ -3,7 +3,7 @@
 #include "number.h"
 using namespace std;
 
-GrandNombre transform_phi(GrandNombre &gn, GrandNombre &N);
+GrandNombre transform_phi(GrandNombre &gn, GrandNombre &N, GrandNombre &R);
 
 GrandNombre::GrandNombre() {
 	for(int i = 0; i < SIZE; i++)
@@ -92,10 +92,10 @@ GrandNombre GrandNombre::mod_sub(GrandNombre &gn, GrandNombre &N) {
 
 //montgomery multiplication
 GrandNombre GrandNombre::montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre &V, GrandNombre &R) {
-	GrandNombre result, s, t, m, u, phi_A, phi_B;
+	GrandNombre result, s, t, m, u, phi_A, phi_B, temp;
 
-	phi_A = transform_phi(*this, N);
-	phi_B = transform_phi(gn, N);
+	phi_A = transform_phi(*this, N, R);
+	phi_B = transform_phi(gn, N, R);
 
 	s = phi_A*phi_B;
 	t = s*V;
@@ -104,7 +104,8 @@ GrandNombre GrandNombre::montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre
 		t = t - R;
 	}
 
-	m = s + t*N;
+	temp = t*N;
+	m = s + temp;
 
 	//u = m/R;
 

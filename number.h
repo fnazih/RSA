@@ -56,5 +56,5 @@ public:
 	}
 	GrandNombre mod_add(GrandNombre &gn, GrandNombre &N);
 	GrandNombre mod_sub(GrandNombre &gn, GrandNombre &N);
-	GrandNombre montgomery(GrandNombre &gn, GrandNombre &N);
+	GrandNombre montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre &V, GrandNombre &R);
 };
