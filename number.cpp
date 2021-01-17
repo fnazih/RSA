@@ -44,9 +44,13 @@ GrandNombre GrandNombre::operator-(GrandNombre &gn) {
 		temp = Tab[i]- gn.getDataIndex(i) - carry;
 		result.set(i, temp);
 		if(Tab[i] < gn.getDataIndex(i)) {
-			cout << i << ' ' << hex << temp << endl;
 			carry = 1;
-			result.set(i, result.getDataIndex(i) - 0xFFFFFFFF00000000);	//removing negative overflow
+			if(result.getDataIndex(i) >= 0xFFFFFFFF00000000) {
+				result.set(i, result.getDataIndex(i) - 0xFFFFFFFF00000000);	//removing negative overflow
+			}
+			else if(result.getDataIndex(i) == 0xFFFFFFFFFFFFFFFF){
+				result.set(i, result.getDataIndex(i) - 0xFFFFFFFFFFFFFFFF);
+			}
 		}
 		else if(Tab[i] == gn.getDataIndex(i) && carry == 1){
 			carry = 1;
