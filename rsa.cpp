@@ -7,6 +7,7 @@ using namespace std;
 GrandNombre choosePrimaryNumber();
 bool isPrime(GrandNombre number);
 GrandNombre gcd(GrandNombre e, GrandNombre phi);
+void RSA(GrandNombre p, GrandNombre q);
 
 GrandNombre choosePrimaryNumber()
 {
@@ -43,8 +44,27 @@ bool isPrime(GrandNombre number) {
 }
 
 //This function returns the greatest common divider between the two parameters
-long int gcd(long int e, long int phi)
+GrandNombre gcd(GrandNombre e, GrandNombre phi)
 {
+	GrandNombre temp;
+
+	while (1) {
+		//temp = e.mod_sub(phi, phi);
+	}
+}
+
+
+void RSA(GrandNombre p, GrandNombre q) {
+	GrandNombre N, phi_N, p_1, q_1;
+	GrandNombre un({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0000000000000001});
+
+	N = p*q;
+
+	p_1 = p - 1;
+	q_1 = q - 1;
+
+	phi_N = p_1*q_1;
+
 
 }
 

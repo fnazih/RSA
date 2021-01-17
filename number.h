@@ -19,6 +19,7 @@ public:
 	GrandNombre operator+(GrandNombre &gn);
 	GrandNombre operator-(GrandNombre &gn);
 	GrandNombre operator*(GrandNombre &gn);
+	GrandNombre operator/(GrandNombre &gn);
 	friend ostream& operator<<(ostream& str, GrandNombre &gn) {
 		for(int i = 0; i < SIZE; i++) {
 			str << hex << uppercase << setfill('0') << gn.getDataIndex(i);
@@ -26,17 +27,21 @@ public:
 		return str;
 	}
 	bool operator>(GrandNombre &gn) {
-		uint64_t temp;
-		bool bigger = false;
 
 		for(int i = 0; i < SIZE; i++) {
 			if(Tab[i] > gn.getDataIndex(i)) {
-				bigger = true;
-				return bigger;
+				if(i == 0) return true;
+				else {
+					int count = 0;
+					for(int j = 0; j < i; j++) {
+						if(Tab[j] == 0) count+= 1;
+					}
+					if(count == i) return true;	//if Tab[i] is first non-null bit64, it is the biggest
+				}
 			}
 		}
 
-		return bigger;
+		return false;
 	}
 	bool operator==(GrandNombre &gn) {
 		int equal = 0;
@@ -58,3 +63,7 @@ public:
 	GrandNombre mod_sub(GrandNombre &gn, GrandNombre &N);
 	GrandNombre montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre &V, GrandNombre &R);
 };
+
+GrandNombre transform_phi(GrandNombre &gn, GrandNombre &N, GrandNombre &R);
+//uint64_t r[SIZE] = { 0x0000000100000000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//const GrandNombre R(r);
