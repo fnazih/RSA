@@ -117,6 +117,9 @@ GrandNombre GrandNombre::mod_sub(GrandNombre &gn, GrandNombre &N) {
 
 	temp_res = *this - gn;
 
+	while (temp_res > N) {
+		temp_res = temp_res - N;
+	}
 	while(gn_null > temp_res) {
 		temp_res = temp_res + N;
 	}
@@ -134,7 +137,10 @@ GrandNombre GrandNombre::montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre
 	phi_B = transform_phi(gn, N, R);
 
 	s = phi_A*phi_B;
+	cout << "s = " << hex << s << endl;
+
 	t = s*V;
+	cout << "t = " << hex << t << endl;
 
 	while (t > R) {
 		t = t - R;
@@ -143,10 +149,11 @@ GrandNombre GrandNombre::montgomery(GrandNombre &gn, GrandNombre &N, GrandNombre
 	temp = t*N;
 	m = s + temp;
 
-	//u = m/R;
+	cout << "m = " << hex << m << endl;
 
-	for(int i = 0; i < SIZE/2; i++) {
-
+	for(int i = 0; i < SIZE/2; i++) { //u = m/R ==> u >> 1025 bits
+		Tab[i + SIZE/2] = Tab[i]/2;
+		Tab[i] = 0;
 	}
 
 	result = u - N;
@@ -180,19 +187,39 @@ int main() {
 
 	uint64_t bigInt1[SIZE] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000FFEB3D52, 0x0000000080EE827D};
 	uint64_t bigInt2[SIZE] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x0000000029AAC39A, 0x00000000A8E75AD7};
+	uint64_t bigIntR[SIZE] = { 0x00010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x0000000000000000, 0x0000000000000000};
+	GrandNombre gnRes, R, N, V;
 
 	GrandNombre gn1(bigInt1);
 	GrandNombre gn2(bigInt2);
-	GrandNombre gnRes, gnRes2, gnRes3;
 
+	//check GrandNombre addition
 	gnRes = gn1 + gn2;
 	cout << "gn1 + gn2 = " << gnRes << endl;
 
-	gnRes2 = gn1 - gn2;
-	cout << "gn1 - gn2 = " << gnRes2 << endl;
+	//check GrandNombre substraction
+	gnRes = gn1 - gn2;
+	cout << "gn1 - gn2 = " << gnRes << endl;
 
-	gnRes3 = gn1*gn2;
-	cout << "gn1 * gn2 = " << gnRes3 << endl;
+	//check GrandNombre multiplication
+	gnRes = gn1*gn2;
+	cout << "gn1 * gn2 = " << gnRes << endl;
+
+	//check GrandNombre division : failed
+	gnRes = gn1/gn2;
+	cout << "gn1/gn2 = " << gnRes << endl;
+
+	//gnRes = gn1.montgomery(gn2);
+
+	//cout << "montgomery gn1 et gn2 : "
+
+	//check GrandNombre comparison
+	if(gn1 > gn2) {
+		cout << "true"<< endl;
+	}
+	else {
+		cout << "false" << endl;
+	}
 
 	return 0;
 }

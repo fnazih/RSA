@@ -4,26 +4,13 @@
 #include "number.h"
 using namespace std;
 
-GrandNombre choosePrimaryNumber();
 bool isPrime(GrandNombre number);
 GrandNombre gcd(GrandNombre e, GrandNombre phi);
 void RSA(GrandNombre p, GrandNombre q);
 
-GrandNombre choosePrimaryNumber()
-{
-	GrandNombre number = GrandNombre();
-
-	while(!isPrime(number))
-	{
-		number = rand();
-	}
-
-	return number;
-}
-
 //This function returns true if the parameter is primary, and false otherwise.
 bool isPrime(GrandNombre number) {
-	int squareRoot = sqrt(number);	//To check if a number is primary, we can divide him by every number until his square root
+	//int squareRoot = sqrt(SIZE);	//To check if a number is primary, we can divide him by every number until his square root
 	GrandNombre gn_null, gn1;
 	gn_null = GrandNombre();
 	gn1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0000000000000001};
@@ -32,9 +19,9 @@ bool isPrime(GrandNombre number) {
 	{
 		return false;
 	}
-	for(long int i = 2; i <= squareRoot; i++)
+	for(int i = 2; i <= SIZE; i++)
 	{
-		if(number%i == 0)
+		if(number/gn1 == 0)
 		{
 			return false;
 		}
@@ -49,7 +36,7 @@ GrandNombre gcd(GrandNombre e, GrandNombre phi)
 	GrandNombre temp;
 
 	while (1) {
-		//temp = e.mod_sub(phi, phi);
+		temp = e.mod_sub(phi, phi);
 	}
 }
 
@@ -64,8 +51,6 @@ void RSA(GrandNombre p, GrandNombre q) {
 	q_1 = q - 1;
 
 	phi_N = p_1*q_1;
-
-
 }
 
 
