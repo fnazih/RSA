@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <math.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <ctime>
 using namespace std;
 
 #define SIZE 32		//for a 2048 bits number, we need 64 unsigned integers of 64 bits since we will multiply 32 bits number together
